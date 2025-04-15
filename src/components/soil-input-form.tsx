@@ -19,6 +19,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export interface SoilData {
   nitrogen: number | "";
@@ -31,6 +33,16 @@ export interface SoilData {
   rainfall: number | "";
   humidity: number | "";
   sunlight: string;
+  method: string;
+  frequency: string;
+  amount: string;
+  fertilizerType: string;
+  fertilizerAmount: string;
+  fertilizerFrequency: string;
+  application: string;
+  variety: string;
+  growthStage: string;
+  healthStatus: string;
 }
 
 interface SoilInputFormProps {
@@ -52,6 +64,16 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
   const [rainfall, setRainfall] = React.useState<number | "">("");
   const [humidity, setHumidity] = React.useState<number | "">("");
   const [sunlight, setSunlight] = React.useState<string>("");
+  const [method, setMethod] = React.useState<string>("");
+  const [frequency, setFrequency] = React.useState<string>("");
+  const [amount, setAmount] = React.useState<string>("");
+  const [fertilizerType, setFertilizerType] = React.useState<string>("");
+  const [fertilizerAmount, setFertilizerAmount] = React.useState<string>("");
+  const [fertilizerFrequency, setFertilizerFrequency] = React.useState<string>("");
+  const [application, setApplication] = React.useState<string>("");
+  const [variety, setVariety] = React.useState<string>("");
+  const [growthStage, setGrowthStage] = React.useState<string>("");
+  const [healthStatus, setHealthStatus] = React.useState<string>("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -66,7 +88,17 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
       temperature === "" ||
       rainfall === "" ||
       humidity === "" ||
-      sunlight === ""
+      sunlight === "" ||
+      method === "" ||
+      frequency === "" ||
+      amount === "" ||
+      fertilizerType === "" ||
+      fertilizerAmount === "" ||
+      fertilizerFrequency === "" ||
+      application === "" ||
+      variety === "" ||
+      growthStage === "" ||
+      healthStatus === ""
     ) {
       alert("Please fill in all the fields.");
       return;
@@ -83,6 +115,16 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
       rainfall: Number(rainfall),
       humidity: Number(humidity),
       sunlight: sunlight,
+      method: method,
+      frequency: frequency,
+      amount: amount,
+      fertilizerType: fertilizerType,
+      fertilizerAmount: fertilizerAmount,
+      fertilizerFrequency: fertilizerFrequency,
+      application: application,
+      variety: variety,
+      growthStage: growthStage,
+      healthStatus: healthStatus,
     };
 
     await onSubmit(data);
@@ -98,6 +140,7 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <ScrollArea className="h-[500px] w-full rounded-md border p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="nitrogen">
@@ -185,73 +228,45 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="soilType">
-                Soil Type
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Enter the type of soil (e.g., Loamy, Sandy, Clay).</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Label>
-              <Input
-                type="text"
-                id="soilType"
-                placeholder="e.g., Loamy"
-                value={soilType}
-                onChange={(e) => setSoilType(e.target.value)}
-                required
-              />
+              <Label htmlFor="soilType">Soil Type</Label>
+              <Select onValueChange={setSoilType} defaultValue={soilType}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select soil type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Loamy">Loamy</SelectItem>
+                  <SelectItem value="Sandy">Sandy</SelectItem>
+                  <SelectItem value="Clay">Clay</SelectItem>
+                  <SelectItem value="Silty">Silty</SelectItem>
+                  <SelectItem value="Peaty">Peaty</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="phLevel">
-                pH Level
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Enter the pH level of the soil (e.g., 6.0-7.5).</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Label>
-              <Input
-                type="text"
-                id="phLevel"
-                placeholder="e.g., 6.5"
-                value={phLevel}
-                onChange={(e) => setPhLevel(e.target.value)}
-                required
-              />
+              <Label htmlFor="phLevel">pH Level</Label>
+              <Select onValueChange={setPhLevel} defaultValue={phLevel}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select pH level" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Acidic">Acidic</SelectItem>
+                  <SelectItem value="Neutral">Neutral</SelectItem>
+                  <SelectItem value="Alkaline">Alkaline</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="organicMatter">
-                Organic Matter
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Enter the organic matter content (e.g., ≥ 2%).</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Label>
-              <Input
-                type="text"
-                id="organicMatter"
-                placeholder="e.g., 2%"
-                value={organicMatter}
-                onChange={(e) => setOrganicMatter(e.target.value)}
-                required
-              />
+              <Label htmlFor="organicMatter">Organic Matter</Label>
+              <Select onValueChange={setOrganicMatter} defaultValue={organicMatter}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select organic matter content" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Low">Low</SelectItem>
+                  <SelectItem value="Medium">Medium</SelectItem>
+                  <SelectItem value="High">High</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="temperature">
@@ -331,29 +346,151 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="sunlight">
-                Sunlight
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Enter the amount of sunlight (e.g., ≥ 6 hours/day).</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Label>
-              <Input
-                type="text"
-                id="sunlight"
-                placeholder="e.g., 8 hours/day"
-                value={sunlight}
-                onChange={(e) => setSunlight(e.target.value)}
-                required
-              />
+              <Label htmlFor="sunlight">Sunlight</Label>
+              <Select onValueChange={setSunlight} defaultValue={sunlight}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select sunlight amount" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Low">Low</SelectItem>
+                  <SelectItem value="Medium">Medium</SelectItem>
+                  <SelectItem value="High">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="method">Method</Label>
+              <Select onValueChange={setMethod} defaultValue={method}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Drip">Drip</SelectItem>
+                  <SelectItem value="Flood">Flood</SelectItem>
+                  <SelectItem value="Sprinkler">Sprinkler</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="frequency">Frequency</Label>
+              <Select onValueChange={setFrequency} defaultValue={frequency}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select frequency" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Daily">Daily</SelectItem>
+                  <SelectItem value="2-3 times/week">2-3 times/week</SelectItem>
+                  <SelectItem value="Weekly">Weekly</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="amount">Amount</Label>
+              <Select onValueChange={setAmount} defaultValue={amount}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select amount" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Low">Low</SelectItem>
+                  <SelectItem value="Medium">Medium</SelectItem>
+                  <SelectItem value="High">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="fertilizerType">Fertilizer Type</Label>
+              <Select onValueChange={setFertilizerType} defaultValue={fertilizerType}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select fertilizer type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Urea">Urea</SelectItem>
+                  <SelectItem value="NPK">NPK</SelectItem>
+                  <SelectItem value="Organic">Organic</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="fertilizerAmount">Fertilizer Amount</Label>
+              <Select onValueChange={setFertilizerAmount} defaultValue={fertilizerAmount}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select fertilizer amount" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Low">Low</SelectItem>
+                  <SelectItem value="Medium">Medium</SelectItem>
+                  <SelectItem value="High">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="fertilizerFrequency">Fertilizer Frequency</Label>
+              <Select onValueChange={setFertilizerFrequency} defaultValue={fertilizerFrequency}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select fertilizer frequency" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Weekly">Weekly</SelectItem>
+                  <SelectItem value="Monthly">Monthly</SelectItem>
+                  <SelectItem value="Bi-monthly">Bi-monthly</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="application">Application</Label>
+              <Select onValueChange={setApplication} defaultValue={application}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select application method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Foliar">Foliar</SelectItem>
+                  <SelectItem value="Soil">Soil</SelectItem>
+                  <SelectItem value="Fertigation">Fertigation</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="variety">Variety</Label>
+              <Select onValueChange={setVariety} defaultValue={variety}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select variety" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="High Yield">High Yield</SelectItem>
+                  <SelectItem value="Disease Resistant">Disease Resistant</SelectItem>
+                  <SelectItem value="Drought Tolerant">Drought Tolerant</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="growthStage">Growth Stage</Label>
+              <Select onValueChange={setGrowthStage} defaultValue={growthStage}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select growth stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Seedling">Seedling</SelectItem>
+                  <SelectItem value="Vegetative">Vegetative</SelectItem>
+                  <SelectItem value="Flowering">Flowering</SelectItem>
+                  <SelectItem value="Harvest">Harvest</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="healthStatus">Health Status</Label>
+              <Select onValueChange={setHealthStatus} defaultValue={healthStatus}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select health status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Healthy">Healthy</SelectItem>
+                  <SelectItem value="Unhealthy">Unhealthy</SelectItem>
+                  <SelectItem value="Diseased">Diseased</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
+          </ScrollArea>
           <Button disabled={isLoading} type="submit">
             {isLoading ? "Recommending..." : "Recommend Crops"}
           </Button>
