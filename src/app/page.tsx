@@ -80,7 +80,7 @@ export default function Home() {
       <Toaster />
       <div className="w-full max-w-3xl">
         <h1 className="text-3xl font-semibold text-center mb-6">
-          CropAI Advisor
+          Kheti Buddy Advisor
         </h1>
         <SoilInputForm onSubmit={onSubmit} isLoading={isLoading} />
 
@@ -108,3 +108,4 @@ export default function Home() {
     </div>
   );
 }
+
