@@ -26,19 +26,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-const Disclaimer = () => (
-  <Card className="w-full mt-4">
-    <CardHeader>
-      <CardTitle>Disclaimer</CardTitle>
-      <CardDescription>
-        The recommendations provided are based on the soil data you input and
-        should be considered as suggestions only. Consult with local
-        agricultural experts for specific advice tailored to your situation.
-      </CardDescription>
-    </CardHeader>
-  </Card>
-);
+import Chatbot from "@/components/chatbot";
 
 export default function Home() {
   const [recommendations, setRecommendations] = useState<
@@ -76,35 +64,36 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-background">
+    
       <Toaster />
-      <div className="w-full max-w-3xl">
-        <h1 className="text-3xl font-semibold text-center mb-6">
-          Kheti Buddy Advisor
-        </h1>
+      
+        
+          <h1>Kheti Buddy Advisor</h1>
+        
         <SoilInputForm onSubmit={onSubmit} isLoading={isLoading} />
 
         {recommendations && recommendations.length > 0 ? (
-          <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4">
+          
+            <h2>
               Recommended Crops
             </h2>
-            <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            
               {recommendations.map((recommendation, index) => (
                 <Crop key={index} crop={recommendation} />
               ))}
-            </div>
-          </div>
+            
+          
         ) : recommendations !== null ? (
-          <div className="mt-8">
+          
             <p className="text-muted-foreground">
               No crops recommended for the given soil conditions.
             </p>
-          </div>
+          
         ) : null}
 
-      </div>
-    </div>
+      
+      <Chatbot />
+    
   );
 }
 
