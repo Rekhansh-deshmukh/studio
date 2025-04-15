@@ -21,9 +21,16 @@ import {
 } from "@/components/ui/tooltip";
 
 export interface SoilData {
-  nitrogen: number;
-  phosphorus: number;
-  potassium: number;
+  nitrogen: number | "";
+  phosphorus: number | "";
+  potassium: number | "";
+  soilType: string;
+  phLevel: string;
+  organicMatter: string;
+  temperature: number | "";
+  rainfall: number | "";
+  humidity: number | "";
+  sunlight: string;
 }
 
 interface SoilInputFormProps {
@@ -38,11 +45,29 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
   const [nitrogen, setNitrogen] = React.useState<number | "">("");
   const [phosphorus, setPhosphorus] = React.useState<number | "">("");
   const [potassium, setPotassium] = React.useState<number | "">("");
+  const [soilType, setSoilType] = React.useState<string>("");
+  const [phLevel, setPhLevel] = React.useState<string>("");
+  const [organicMatter, setOrganicMatter] = React.useState<string>("");
+  const [temperature, setTemperature] = React.useState<number | "">("");
+  const [rainfall, setRainfall] = React.useState<number | "">("");
+  const [humidity, setHumidity] = React.useState<number | "">("");
+  const [sunlight, setSunlight] = React.useState<string>("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (nitrogen === "" || phosphorus === "" || potassium === "") {
+    if (
+      nitrogen === "" ||
+      phosphorus === "" ||
+      potassium === "" ||
+      soilType === "" ||
+      phLevel === "" ||
+      organicMatter === "" ||
+      temperature === "" ||
+      rainfall === "" ||
+      humidity === "" ||
+      sunlight === ""
+    ) {
       alert("Please fill in all the fields.");
       return;
     }
@@ -51,6 +76,13 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
       nitrogen: Number(nitrogen),
       phosphorus: Number(phosphorus),
       potassium: Number(potassium),
+      soilType: soilType,
+      phLevel: phLevel,
+      organicMatter: organicMatter,
+      temperature: Number(temperature),
+      rainfall: Number(rainfall),
+      humidity: Number(humidity),
+      sunlight: sunlight,
     };
 
     await onSubmit(data);
@@ -88,7 +120,9 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
                 id="nitrogen"
                 placeholder="e.g., 50 ppm"
                 value={nitrogen}
-                onChange={(e) => setNitrogen(e.target.value === "" ? "" : Number(e.target.value))}
+                onChange={(e) =>
+                  setNitrogen(e.target.value === "" ? "" : Number(e.target.value))
+                }
                 required
               />
             </div>
@@ -113,7 +147,11 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
                 id="phosphorus"
                 placeholder="e.g., 30 ppm"
                 value={phosphorus}
-                onChange={(e) => setPhosphorus(e.target.value === "" ? "" : Number(e.target.value))}
+                onChange={(e) =>
+                  setPhosphorus(
+                    e.target.value === "" ? "" : Number(e.target.value)
+                  )
+                }
                 required
               />
             </div>
@@ -138,7 +176,180 @@ export const SoilInputForm: React.FC<SoilInputFormProps> = ({
                 id="potassium"
                 placeholder="e.g., 80 ppm"
                 value={potassium}
-                onChange={(e) => setPotassium(e.target.value === "" ? "" : Number(e.target.value))}
+                onChange={(e) =>
+                  setPotassium(
+                    e.target.value === "" ? "" : Number(e.target.value)
+                  )
+                }
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="soilType">
+                Soil Type
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the type of soil (e.g., Loamy, Sandy, Clay).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="text"
+                id="soilType"
+                placeholder="e.g., Loamy"
+                value={soilType}
+                onChange={(e) => setSoilType(e.target.value)}
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="phLevel">
+                pH Level
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the pH level of the soil (e.g., 6.0-7.5).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="text"
+                id="phLevel"
+                placeholder="e.g., 6.5"
+                value={phLevel}
+                onChange={(e) => setPhLevel(e.target.value)}
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="organicMatter">
+                Organic Matter
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the organic matter content (e.g., ≥ 2%).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="text"
+                id="organicMatter"
+                placeholder="e.g., 2%"
+                value={organicMatter}
+                onChange={(e) => setOrganicMatter(e.target.value)}
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="temperature">
+                Temperature
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the average temperature (e.g., 20-25°C).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="number"
+                id="temperature"
+                placeholder="e.g., 22°C"
+                value={temperature}
+                onChange={(e) =>
+                  setTemperature(
+                    e.target.value === "" ? "" : Number(e.target.value)
+                  )
+                }
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="rainfall">
+                Rainfall
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the average rainfall (e.g., 3-4 cm/week).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="number"
+                id="rainfall"
+                placeholder="e.g., 3.5 cm/week"
+                value={rainfall}
+                onChange={(e) =>
+                  setRainfall(e.target.value === "" ? "" : Number(e.target.value))
+                }
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="humidity">
+                Humidity
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the average humidity (e.g., 50-70%).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="number"
+                id="humidity"
+                placeholder="e.g., 60%"
+                value={humidity}
+                onChange={(e) =>
+                  setHumidity(e.target.value === "" ? "" : Number(e.target.value))
+                }
+                required
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="sunlight">
+                Sunlight
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <HelpCircle className="ml-2 h-4 w-4 inline-block align-top cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Enter the amount of sunlight (e.g., ≥ 6 hours/day).</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
+              <Input
+                type="text"
+                id="sunlight"
+                placeholder="e.g., 8 hours/day"
+                value={sunlight}
+                onChange={(e) => setSunlight(e.target.value)}
                 required
               />
             </div>

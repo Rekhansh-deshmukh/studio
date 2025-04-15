@@ -11,11 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { recommendCrops } from "@/ai/flows/recommend-crops";
-import { SoilData } from "@/services/soil-analysis";
 import {
   Crop,
   CropRecommendation,
   SoilInputForm,
+  SoilData,
 } from "@/components/soil-input-form";
 import { toast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
